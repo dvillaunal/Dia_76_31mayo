@@ -1,20 +1,18 @@
-```{r, eval=FALSE, include=TRUE}
-"Protocolo:
+## ---- eval=FALSE, include=TRUE-----------------------------------------------
+## "Protocolo:
+## 
+## 1. Daniel Felipe Villa Rengifo
+## 
+## 2. Lenguaje: R
+## 
+## 3. Tema: Modelo Lineal
+## 
+## 4. Fuentes:
+##    https://bookdown.org/matiasandina/R-intro/modelos-lineales.html"
+## 
 
-1. Daniel Felipe Villa Rengifo
 
-2. Lenguaje: R
-
-3. Tema: Modelo Lineal
-
-4. Fuentes:
-   https://bookdown.org/matiasandina/R-intro/modelos-lineales.html"
-
-```
-
-Yo se que este tema no lo ibamos a tratar, pero todos estos dias he estado aprendiendo sobre el tema, ya que en un futuro replit tratare un tema de correlación y me parecio un tema relevante.
-
-```{r}
+## ----------------------------------------------------------------------------
 "Utilizaremos una base de datos de la paqueteria modelr (Estos sencillos conjuntos de datos simulados son útiles para enseñar los fundamentos de la modelización), asi trabajaremos con datos que sean de compresión y facil explicación, la base de datos se llama sim1"
 
 # importamos la base de datos:
@@ -32,9 +30,9 @@ plot1
 dev.off()
 
 # Como lo anterior es cierto (patron fuerte entre los datos), a primera vista pareciera que el modelo lineal [y = a + b*x] podria  servir.
-```
 
-```{r}
+
+## ----------------------------------------------------------------------------
 # Según los estudiado, primero veamos modelos al azar, asi mira cual mejor iria en los datos dados:
 
 # Gracias a las funcionalidades de ggplot2, tenemos la opcion geom_abline(), de esta manera podemos ingresar la pendiente y los intenceptos como parametros:
@@ -69,8 +67,8 @@ modelazar
 dev.off()
 
 "A simple vista podemos apreciar que algunos modelos son mejores que otros. Pero necesitamos una forma de cuantificar cuales son los mejores modelos."
-```
-```{r}
+
+## ----------------------------------------------------------------------------
 # calcular distancias:
 "Una forma de definir mejor es pensar en aquel modelo que minimiza la distancia vertical con cada punto:
 
@@ -116,8 +114,8 @@ dev.off()
 #La distancia de cada punto a la recta es la diferencia entre lo que predice nuestro modelo y el valor real
 
 "Para computar la distancia, primero necesitamos una función que represente a nuestro modelo"
-```
-```{r}
+
+## ----------------------------------------------------------------------------
 # Para eso, vamos a crear una función que reciba un vector con los parámetros del modelo, y el set de datos, y genere la predicción:
 
 model1 <- function(i, data){
@@ -130,9 +128,9 @@ model1 <- function(i, data){
 # Probamos la funcion y como vemos esos son los valores proyecctos sobre los puntos dados en sim1:
 
 model1(c(a, b), sim1)
-```
 
-```{r}
+
+## ----------------------------------------------------------------------------
 #Ahora, necesitamos una forma de calcular los residuos y agruparlos. Esto lo vamos a hacer con el "error cuadrático medio" ECM
 
 # Cremaos la funcion:
@@ -144,16 +142,9 @@ ECM <- function(mod, data){
 
 # Probamos la funcion:
 ECM(c(a,b), sim1)
-```
-
-#Evaluando los modelos aleatorios
-
-Ahora podemos calcular el ECM para todos los modelos del dataframe models. Para eso utilizamos el paquete purrr, para ejecutar varias veces la misma función sobre varios elementos.
-
-Tenemos que pasar los valores de a y b (dos parámetros –> map2), pero como nuestra función toma sólo uno (el vector a), nos armamos una función de ayuda para __wrapear__ "a" y "b"
 
 
-```{r}
+## ----------------------------------------------------------------------------
 wrapear <- function(r,t){
   "ECM para wrapear a y b o en este caso recibe a sim1, returnara la solucion de a y b"
   ECM(c(r,t), sim1)
@@ -166,10 +157,9 @@ m <- m %>%
   mutate(dist = purrr::map2_dbl(a, b, wrapear))
 
 "A continuación, con `fill` de ggplot los 10 mejores modelos a los datos. Coloreamos los modelos por -dist: esta es una manera fácil de asegurarse de que los mejores modelos (es decir, los que tienen la menor distancia) obtengan los colores más brillantes."
-```
 
 
-```{r}
+## ----------------------------------------------------------------------------
 
 png(filename = "mejores10modelos.png", height = 720, width = 720)
 
@@ -184,15 +174,9 @@ mejor_modelo <- ggplot(sim1, aes(x, y)) +
 
 mejor_modelo
 dev.off()
-```
 
 
-También podemos pensar en estos modelos como observaciones y visualizar con un gráfico de dispersión de a vs b, nuevamente coloreado por -dist.
-
-Ya no podemos ver directamente cómo se compara el modelo con los datos, pero podemos ver muchos modelos a la vez. Nuevamente, destacamos los 10 mejores modelos, esta vez dibujando círculos rojos debajo de ellos. 
-
-
-```{r}
+## ----------------------------------------------------------------------------
 png(filename = "GraficodeDIspercionRojo.png", height = 720, width = 720)
 
 # Creamos un grafico de dispersion donde con un delineado rojo, muestre los 10 mejores modelos
@@ -203,13 +187,9 @@ dispersion <- ggplot(m, aes(a, b)) +
 
 dispersion
 dev.off()
-```
 
-# Busqueda de Cuadricula o Grid Search
 
-En lugar de probar muchos modelos aleatorios, podríamos ser más sistemáticos y generar una cuadrícula de puntos uniformemente espaciada (esto se denomina grid search). Elegimos los parámetros del cuadro aproximadamente mirando dónde estaban los mejores modelos en el gráfico anterior.
-
-```{r}
+## ----------------------------------------------------------------------------
 # Creamos un data frame  donde como expliqeu anterior mente vamos a graficarlo connel metodo de "busqueda de cuadricula"
 
 grilla <- expand.grid(
@@ -233,9 +213,9 @@ gridsearch <- grilla %>%
 
 gridsearch
 dev.off()
-```
 
-```{r}
+
+## ----------------------------------------------------------------------------
 #Cuando superponemos los 10 mejores modelos en los datos originales 
 #todo se deberia ver bien:
 
@@ -252,4 +232,3 @@ sobrepuesto <- ggplot(sim1, aes(x, y)) +
 
 sobrepuesto
 dev.off()
-```

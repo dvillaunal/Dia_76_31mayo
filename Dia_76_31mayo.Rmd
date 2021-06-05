@@ -1,3 +1,14 @@
+---
+title: "DIa_76_31mayo"
+author: "Daniel Felipe Villa Rengifo"
+date: "5/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 ```{r, eval=FALSE, include=TRUE}
 "Protocolo:
 
@@ -253,3 +264,9 @@ sobrepuesto <- ggplot(sim1, aes(x, y)) +
 sobrepuesto
 dev.off()
 ```
+
+```{r, eval=FALSE, include=FALSE}
+library(knitr)
+purl("Dia_76_31mayo.Rmd", "main.r")
+```
+
