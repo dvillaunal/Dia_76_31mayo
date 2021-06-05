@@ -14,6 +14,8 @@
 
 Yo se que este tema no lo ibamos a tratar, pero todos estos dias he estado aprendiendo sobre el tema, ya que en un futuro replit tratare un tema de correlación y me parecio un tema relevante.
 
+un compañenro me ayudo con la explicación del tema, poco a poco sacamos este documento.
+
 ```{r}
 "Utilizaremos una base de datos de la paqueteria modelr (Estos sencillos conjuntos de datos simulados son útiles para enseñar los fundamentos de la modelización), asi trabajaremos con datos que sean de compresión y facil explicación, la base de datos se llama sim1"
 
